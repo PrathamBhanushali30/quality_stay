@@ -1,14 +1,14 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:quality_stay/constants/DBKeys.dart';
 import 'package:quality_stay/presentation/home_page.dart';
 import 'package:quality_stay/presentation/register_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:quality_stay/presentation/widgets/custom_dialog.dart';
 import 'package:quality_stay/services/app_component_base.dart';
+
+import '../constants/dbkeys.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

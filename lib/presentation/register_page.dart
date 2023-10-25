@@ -1,16 +1,9 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:quality_stay/presentation/Login_page.dart';
 import 'package:quality_stay/presentation/widgets/custom_dialog.dart';
-
-import '../constants/DBKeys.dart';
 import '../services/app_component_base.dart';
-import 'home_page.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});

@@ -17,27 +17,29 @@ class HomePageController extends GetxController{
   RxBool isLoading = true.obs;
 
   @override
-  void onInit() async {
+  void onInit() {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
           statusBarColor: Colors.lightGreen,
       ),
     );
-    AppBaseComponent.instance.startLoading();
-    var uri = Uri.parse('https://city-mania-kole.onrender.com/city/list');
-    final response = await client.get(uri,headers: {'Content-Type': 'application/json'},);
-    print(response.statusCode);
-    cityModel = cityModelFromJson(response.body);
-    cityList = cityModel?.list;
-    for(var element in cityList!){
-      if(element.name == 'Ahmedabad'){
-        ahmedabad = element;
+    Future.delayed(Duration(milliseconds: 300),() async{
+      AppBaseComponent.instance.startLoading();
+      var uri = Uri.parse('https://city-mania-kole.onrender.com/city/list');
+      final response = await client.get(uri,headers: {'Content-Type': 'application/json'},);
+      print(response.statusCode);
+      cityModel = cityModelFromJson(response.body);
+      cityList = cityModel?.list;
+      for(var element in cityList!){
+        if(element.name == 'Ahmedabad'){
+          ahmedabad = element;
+        }
       }
-    }
-    cityList?.removeWhere((element) => element.name == 'Ahmedabad');
-    cityList?.insert(0, ahmedabad!);
-    isLoading.value = false;
-    AppBaseComponent.instance.stopLoading();
+      cityList?.removeWhere((element) => element.name == 'Ahmedabad');
+      cityList?.insert(0, ahmedabad!);
+      isLoading.value = false;
+      AppBaseComponent.instance.stopLoading();
+    });
     super.onInit();
   }
 

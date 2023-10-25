@@ -37,7 +37,9 @@ class HomePage extends GetView<HomePageController> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.9,
                 child: Obx(
-                  () => GridView.builder(
+                  () => controller.isLoading.value == true
+                      ? const SizedBox.shrink()
+                      : GridView.builder(
                     physics: const BouncingScrollPhysics(),
                     itemCount: controller.cityList?.length,
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
@@ -54,9 +56,7 @@ class HomePage extends GetView<HomePageController> {
                                 ));
                           }
                         },
-                        child: controller.isLoading.value == true
-                            ? const SizedBox.shrink()
-                            : !(controller.cityList?[index].isComingSoon ?? false)
+                        child: !(controller.cityList?[index].isComingSoon ?? false)
                                 ? HomePageCard(
                                     text: controller.cityList?[index].name ?? '',
                                     image: 'assets/${controller.cityList?[index].name}.png',

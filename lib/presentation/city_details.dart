@@ -1,14 +1,14 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:quality_stay/constants/DBKeys.dart';
 import 'package:quality_stay/data/models/city_model.dart';
 import 'package:quality_stay/presentation/area_list_page.dart';
 import 'package:quality_stay/presentation/widgets/title_text.dart';
 import 'package:quality_stay/presentation/widgets/value_text.dart';
+
+import '../constants/dbkeys.dart';
 
 class CityDetails extends StatefulWidget {
   const CityDetails({
@@ -226,14 +226,21 @@ class _CityDetailsState extends State<CityDetails> {
                       child: ClipRRect(
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                          child: const Center(
-                            child: Text(
-                              'Please Login to see more',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                              ),
+                          child: Center(
+                            child: Column(
+                              children: [
+                                const Text(
+                                  'Please Login to see more',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Container(
+
+                                ),
+                              ],
                             ),
                           ),
                         ),

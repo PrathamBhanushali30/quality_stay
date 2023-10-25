@@ -3,11 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:quality_stay/constants/DBKeys.dart';
-import 'package:quality_stay/presentation/Login_page.dart';
+import 'package:quality_stay/presentation/login_page.dart';
 import 'package:quality_stay/presentation/home_page.dart';
 import 'package:quality_stay/presentation/widgets/custom_scroll_behaviour.dart';
 import 'package:quality_stay/services/app_component_base.dart';
+
+import 'constants/dbkeys.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

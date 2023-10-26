@@ -137,6 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                 )
                     .then((value) async {
                   if (value.statusCode == 200) {
+                    await GetStorage().write(DBKeys.token, jsonDecode(value.body)['token']);
                     await GetStorage().write(DBKeys.isLogin, true );
                     await GetStorage().write(DBKeys.isSkipLogin, false).then((value) {
                       Navigator.pushAndRemoveUntil(

@@ -16,6 +16,8 @@ class HomePageController extends GetxController{
 
   RxBool isLoading = true.obs;
 
+  TextEditingController searchController = TextEditingController();
+
   @override
   void onInit() {
     SystemChrome.setSystemUIOverlayStyle(
@@ -41,6 +43,35 @@ class HomePageController extends GetxController{
       AppBaseComponent.instance.stopLoading();
     });
     super.onInit();
+  }
+
+  void getSearchData({required String searchedCity}) async {
+    AppBaseComponent.instance.startLoading();
+    var uri = Uri.parse('https://city-mania-kole.onrender.com/city/list?search=$searchedCity');
+    final response = await client.get(uri,headers: {'Content-Type': 'application/json'},);
+    print(response.statusCode);
+    cityModel = cityModelFromJson(response.body);
+    cityList = cityModel?.list;
+    isLoading.value = false;
+    AppBaseComponent.instance.stopLoading();
+  }
+
+  void resetData()async{
+    AppBaseComponent.instance.startLoading();
+    var uri = Uri.parse('https://city-mania-kole.onrender.com/city/list');
+    final response = await client.get(uri,headers: {'Content-Type': 'application/json'},);
+    print(response.statusCode);
+    cityModel = cityModelFromJson(response.body);
+    cityList = cityModel?.list;
+    for(var element in cityList!){
+      if(element.name == 'Ahmedabad'){
+        ahmedabad = element;
+      }
+    }
+    cityList?.removeWhere((element) => element.name == 'Ahmedabad');
+    cityList?.insert(0, ahmedabad!);
+    isLoading.value = false;
+    AppBaseComponent.instance.stopLoading();
   }
 
 }

@@ -39,60 +39,98 @@ class HomePage extends GetView<HomePageController> {
                 child: Obx(
                   () => controller.isLoading.value == true
                       ? const SizedBox.shrink()
-                      : GridView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: controller.cityList?.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          if (index == 0) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CityDetails(
-                                    city: controller.cityList![index],
+                      : Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(color: Colors.black.withOpacity(0.26), offset: const Offset(3, 3), spreadRadius: 2, blurRadius: 2)
+                                ],
+                              ),
+                              child: Center(
+                                child: TextField(
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Search',
+                                    suffixIcon: Icon(Icons.search,size: 20,color: Colors.black,),
                                   ),
-                                ));
-                          }
-                        },
-                        child: !(controller.cityList?[index].isComingSoon ?? false)
-                                ? HomePageCard(
-                                    text: controller.cityList?[index].name ?? '',
-                                    image: 'assets/${controller.cityList?[index].name}.png',
-                                  )
-                                : Stack(
-                                    children: [
-                                      HomePageCard(
-                                        text: controller.cityList?[index].name ?? '',
-                                        image: 'assets/${controller.cityList?[index].name?.trim()}.png',
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Container(
-                                          height: 150,
-                                          width: 150,
-                                          decoration: BoxDecoration(
-                                            color: Colors.black.withOpacity(0.30),
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          child: const Center(
-                                            child: Text(
-                                              'Coming Soon',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w500,
+                                  controller: controller.searchController,
+                                  cursorColor: Colors.green,
+                                  onChanged: (value){
+                                    if(controller.searchController.text.isEmpty || value == ""){
+                                      controller.resetData();
+                                    }else{
+                                      controller.getSearchData(searchedCity: value);
+                                    }
+                                  },
+                                ).paddingSymmetric(horizontal: 10).paddingOnly(top: 3),
+                              ),
+                            ).paddingSymmetric(horizontal: 10),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Expanded(
+                              child: GridView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                itemCount: controller.cityList?.length,
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      if (index == 0) {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => CityDetails(
+                                                city: controller.cityList![index],
                                               ),
-                                            ),
+                                            ));
+                                      }
+                                    },
+                                    child: !(controller.cityList?[index].isComingSoon ?? false)
+                                        ? HomePageCard(
+                                            text: controller.cityList?[index].name ?? '',
+                                            image: 'assets/${controller.cityList?[index].name}.png',
+                                          )
+                                        : Stack(
+                                            children: [
+                                              HomePageCard(
+                                                text: controller.cityList?[index].name ?? '',
+                                                image: 'assets/${controller.cityList?[index].name?.trim()}.png',
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(10.0),
+                                                child: Container(
+                                                  height: 150,
+                                                  width: 150,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.black.withOpacity(0.30),
+                                                    borderRadius: BorderRadius.circular(10),
+                                                  ),
+                                                  child: const Center(
+                                                    child: Text(
+                                                      'Coming Soon',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                      );
-                    },
-                  ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                 ),
               )
             ],

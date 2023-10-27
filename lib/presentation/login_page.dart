@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:quality_stay/presentation/home_page.dart';
@@ -23,6 +24,16 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
 
   bool isObscure = true;
+
+  @override
+  void initState() {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.lightGreen,
+      ),
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                     .then((value) async {
                   if (value.statusCode == 200) {
                     await GetStorage().write(DBKeys.token, jsonDecode(value.body)['token']);
-                    await GetStorage().write(DBKeys.isLogin, true );
+                    await GetStorage().write(DBKeys.isLogin, true);
                     await GetStorage().write(DBKeys.isSkipLogin, false).then((value) {
                       Navigator.pushAndRemoveUntil(
                           context,

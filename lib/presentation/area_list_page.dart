@@ -76,7 +76,9 @@ class AreaListPage extends GetView<AreaPageController> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => AreaDetailsPage(area: controller.areaList![index],areaIndex: index),
-                                    ));
+                                    )).then((value){
+                                      controller.resetData(cityId: cityId);
+                                });
                               },
                               child: Container(
                                 decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [

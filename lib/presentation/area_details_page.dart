@@ -13,7 +13,7 @@ class AreaDetailsPage extends GetView<AreaDetailsPageController> {
   final int areaIndex;
 
   @override
-  AreaDetailsPageController get controller => Get.put(AreaDetailsPageController(cityId: area.city!));
+  AreaDetailsPageController get controller => Get.put(AreaDetailsPageController());
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +170,7 @@ class AreaDetailsPage extends GetView<AreaDetailsPageController> {
                   ),
                 ),
                 child: ListView.builder(
-                  itemCount: controller.areaList?[areaIndex].reviews?.length,
+                  itemCount: area.reviews?.length,
                   controller: controller.scrollController,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
@@ -181,7 +181,7 @@ class AreaDetailsPage extends GetView<AreaDetailsPageController> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                                '${controller.areaList?[areaIndex].reviews?[index].createdAt?.day}/${controller.areaList?[areaIndex].reviews?[index].createdAt?.month}/${controller.areaList?[areaIndex].reviews?[index].createdAt?.year}' ??
+                                '${area.reviews?[index].createdAt?.day}/${area.reviews?[index].createdAt?.month}/${area.reviews?[index].createdAt?.year}' ??
                                     ""),
                           ],
                         ),
@@ -189,14 +189,20 @@ class AreaDetailsPage extends GetView<AreaDetailsPageController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             TitleText(
-                              text: controller.areaList?[areaIndex].reviews?[index].text ?? "",
+                              text: area.reviews?[index].text ?? "",
                             ),
                             Row(
                               children: [
                                 GestureDetector(
+                                  onTap: () {
+                                    controller.deleteReview(reviewId: area.reviews?[index].id ?? "0");
+                                  },
                                   child: const Icon(Icons.delete),
                                 ),
                                 GestureDetector(
+                                  onTap: (){
+                                    controller.showBottomSheet(area.reviews?[index].text ?? "",controller,area.reviews?[index].id ?? "");
+                                  },
                                   child: const Icon(Icons.edit),
                                 ),
                               ],
@@ -233,8 +239,9 @@ class AreaDetailsPage extends GetView<AreaDetailsPageController> {
                   GestureDetector(
                     onTap: () {
                       if (controller.reviewController.text.isNotEmpty) {
-                        controller.addReview(text: controller.reviewController.text, areaId: controller.areaList![areaIndex].id!);
-                        controller.getReviews(cityId: controller.cityId);
+                        FocusScope.of(context).unfocus();
+                        controller.addReview(text: controller.reviewController.text, areaId: area.id!);
+                        controller.reviewController.clear();
                       }
                     },
                     child: Container(

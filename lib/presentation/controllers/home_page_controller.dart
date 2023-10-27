@@ -47,6 +47,7 @@ class HomePageController extends GetxController{
 
   void getSearchData({required String searchedCity}) async {
     AppBaseComponent.instance.startLoading();
+    isLoading.value = true;
     var uri = Uri.parse('https://city-mania-kole.onrender.com/city/list?search=$searchedCity');
     final response = await client.get(uri,headers: {'Content-Type': 'application/json'},);
     print(response.statusCode);

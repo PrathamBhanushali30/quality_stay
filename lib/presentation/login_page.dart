@@ -29,10 +29,20 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
-        statusBarColor: Colors.lightGreen,
+        statusBarColor: Colors.black,
       ),
     );
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.black,
+      ),
+    );
+    super.didChangeDependencies();
   }
 
   @override
@@ -134,39 +144,49 @@ class _LoginPageState extends State<LoginPage> {
             ),
             GestureDetector(
               onTap: () async {
-                AppBaseComponent.instance.startLoading();
-                Map<String, dynamic> body = {
-                  "username": nameController.text,
-                  "password": passwordController.text,
-                };
-                var uri = Uri.parse('https://city-mania-kole.onrender.com/user/signin');
-                var response = await client
-                    .post(
-                  uri,
-                  headers: {'Content-Type': 'application/json'},
-                  body: jsonEncode(body),
-                )
-                    .then((value) async {
-                  if (value.statusCode == 200) {
-                    await GetStorage().write(DBKeys.token, jsonDecode(value.body)['token']);
-                    await GetStorage().write(DBKeys.isLogin, true);
-                    await GetStorage().write(DBKeys.isSkipLogin, false).then((value) {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const HomePage(),
-                          ),
-                          (route) => false);
-                    });
-                  } else {
-                    CustomDialog.showCustomDialog(
-                      context: context,
-                      errorTitle: 'Oops!!',
-                      errorMessage: jsonDecode(value.body)['message'],
-                    );
-                  }
-                });
-                AppBaseComponent.instance.stopLoading();
+                if (nameController.text.isEmpty || passwordController.text.isEmpty) {
+                  Get.showSnackbar(
+                    const GetSnackBar(
+                      message: 'Please Fill All The Fields',
+                      backgroundColor: Colors.green,
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                } else {
+                  AppBaseComponent.instance.startLoading();
+                  Map<String, dynamic> body = {
+                    "username": nameController.text,
+                    "password": passwordController.text,
+                  };
+                  var uri = Uri.parse('https://city-mania-kole.onrender.com/user/signin');
+                  var response = await client
+                      .post(
+                    uri,
+                    headers: {'Content-Type': 'application/json'},
+                    body: jsonEncode(body),
+                  )
+                      .then((value) async {
+                    if (value.statusCode == 200) {
+                      await GetStorage().write(DBKeys.token, jsonDecode(value.body)['token']);
+                      await GetStorage().write(DBKeys.isLogin, true);
+                      await GetStorage().write(DBKeys.isSkipLogin, false).then((value) {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HomePage(),
+                            ),
+                            (route) => false);
+                      });
+                    } else {
+                      CustomDialog.showCustomDialog(
+                        context: context,
+                        errorTitle: 'Oops!!',
+                        errorMessage: jsonDecode(value.body)['message'],
+                      );
+                    }
+                  });
+                  AppBaseComponent.instance.stopLoading();
+                }
               },
               child: Container(
                 height: 57,

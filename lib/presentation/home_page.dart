@@ -37,9 +37,7 @@ class HomePage extends GetView<HomePageController> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.9,
                 child: Obx(
-                  () => controller.isLoading.value == true
-                      ? const SizedBox.shrink()
-                      : Column(
+                  () => Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Container(
@@ -73,7 +71,9 @@ class HomePage extends GetView<HomePageController> {
                             const SizedBox(
                               height: 20,
                             ),
-                            Expanded(
+                            controller.isLoading.value == true
+                                ? const SizedBox.shrink()
+                                : Expanded(
                               child: GridView.builder(
                                 physics: const BouncingScrollPhysics(),
                                 itemCount: controller.cityList?.length,

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:quality_stay/data/models/city_model.dart';
 import 'package:quality_stay/presentation/area_list_page.dart';
+import 'package:quality_stay/presentation/login_page.dart';
 import 'package:quality_stay/presentation/widgets/title_text.dart';
 import 'package:quality_stay/presentation/widgets/value_text.dart';
 
@@ -228,6 +229,8 @@ class _CityDetailsState extends State<CityDetails> {
                           filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                           child: Center(
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 const Text(
                                   'Please Login to see more',
@@ -237,9 +240,28 @@ class _CityDetailsState extends State<CityDetails> {
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                Container(
-
-                                ),
+                                const SizedBox(height: 10,),
+                                GestureDetector(
+                                  onTap: ()async{
+                                    await GetStorage().write(DBKeys.isLogin, false);
+                                    await GetStorage().write(DBKeys.isSkipLogin, false);
+                                    Get.offAll(()=>const LoginPage());
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(10), boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.16),
+                                        spreadRadius: 1,
+                                        blurRadius: 1,
+                                        offset: const Offset(2, 2),
+                                      ),
+                                    ]),
+                                    child: const Text(
+                                      'Login',
+                                      style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
+                                    ).paddingSymmetric(horizontal: 30,vertical: 10),
+                                  ),
+                                )
                               ],
                             ),
                           ),

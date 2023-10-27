@@ -181,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                       CustomDialog.showCustomDialog(
                         context: context,
                         errorTitle: 'Oops!!',
-                        errorMessage: jsonDecode(value.body)['message'],
+                        errorMessage: jsonDecode(value.body)['msg'],
                       );
                     }
                   });

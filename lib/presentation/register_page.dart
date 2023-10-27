@@ -135,7 +135,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     CustomDialog.showCustomDialog(
                         context: context,
                         errorTitle: 'Bravo!!',
-                        errorMessage: jsonDecode(value.body)['message'],
+                        errorMessage: jsonDecode(value.body)['msg'],
                         onTap: () {
                           Navigator.pop(context);
                           Navigator.pop(context);
@@ -144,7 +144,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     CustomDialog.showCustomDialog(
                       context: context,
                       errorTitle: 'Oops!!',
-                      errorMessage: jsonDecode(value.body)['message'],
+                      errorMessage: jsonDecode(value.body)['msg'],
                     );
                   }
                 });

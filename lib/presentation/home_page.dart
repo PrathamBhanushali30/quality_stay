@@ -81,7 +81,7 @@ class HomePage extends GetView<HomePageController> {
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
-                                      if (index == 0) {
+                                      if (controller.cityList![index].name == 'Ahmedabad' && index == 0) {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -95,7 +95,7 @@ class HomePage extends GetView<HomePageController> {
                                         ? HomePageCard(
                                             text: controller.cityList?[index].name ?? '',
                                             image: 'assets/${controller.cityList?[index].name}.png',
-                                          )
+                                          ).paddingAll(5)
                                         : Stack(
                                             children: [
                                               HomePageCard(

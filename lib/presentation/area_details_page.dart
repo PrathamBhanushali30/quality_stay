@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:quality_stay/constants/dbkeys.dart';
 import 'package:quality_stay/data/models/area_model.dart';
 import 'package:quality_stay/presentation/controllers/area_details_page_controller.dart';
 import 'package:quality_stay/presentation/widgets/title_text.dart';
@@ -191,6 +194,7 @@ class AreaDetailsPage extends GetView<AreaDetailsPageController> {
                             TitleText(
                               text: area.reviews?[index].text ?? "",
                             ),
+                            if(JwtDecoder.decode(GetStorage().read(DBKeys.token))['userId'] == area.reviews?[index].user)
                             Row(
                               children: [
                                 GestureDetector(

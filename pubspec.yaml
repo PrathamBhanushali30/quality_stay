@@ -48,6 +48,9 @@ dependencies:
   #this library is used for connecting with server
   http: ^1.1.0
 
+  #this library is used for jwt decoding
+  jwt_decoder: ^2.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
